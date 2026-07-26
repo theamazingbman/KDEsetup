@@ -1,5 +1,4 @@
 com.notesnook.Notesnook
-com.mattjakeman.ExtensionManager
 org.mozilla.thunderbird
 io.gitlab.librewolf-community
 com.stremio.Stremio
@@ -9,7 +8,6 @@ org.kde.kdenlive
 org.librecad.librecad
 net.sourceforge.mcomix
 com.transmissionbt.Transmission
-tv.kodi.Kodi
 net.filebot.FileBot
 app.ytmdesktop.ytmdesktop
 media.emby.EmbyTheater
