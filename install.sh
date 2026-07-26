@@ -7,7 +7,7 @@ set -e
 cd "$(dirname "$0")"
 
 echo "============================================"
-echo " Starting Terry's Fedora System Restoration "
+echo " Starting Terry's Fedora KDE Setup   "
 echo "============================================"
 
 # 1. Install RPM Fusion Repositories
@@ -58,27 +58,24 @@ else
     echo "Warning: flatpak_packages.txt not found. Skipping."
 fi
 
-# 7. Restore Desktop Custom Themes & Settings via dconf
-if [ -f "desktop_settings.ini" ]; then
-    echo -e "\n--> Restoring Desktop Settings and Themes via dconf..."
-    dconf load / < desktop_settings.ini
-else
-    echo "Warning: desktop_settings.ini not found. Skipping settings restore."
+# 7. Install SF Pro Font System-Wide
+echo -e "\n--> Installing Apple SF Pro Font..."
+# Ensure git is installed for the clone process
+if ! command -v git &> /dev/null; then
+    sudo dnf install -y git
 fi
 
-# 8. Restore Fuzzel Custom Styles
-echo -e "\n--> Restoring Fuzzel configurations..."
-if [ -d "fuzzel" ]; then
-    # Create the config directory if it doesn't exist (-p prevents errors if it exists)
-    mkdir -p "$HOME/.config/fuzzel"
-    # Copy the style file into place
-    cp fuzzel/fuzzel.ini "$HOME/.config/fuzzel/fuzzel.ini"
-    echo "Fuzzel style file applied successfully."
-else
-    echo "Warning: Fuzzel configuration folder not found. Skipping."
-fi
+# Clone, install, and clean up in a temporary directory
+git clone https://github.com/sahibjotsaggu/San-Francisco-Pro-Fonts.git /tmp/sf-pro
+sudo mkdir -p /usr/share/fonts/sf-pro
+sudo cp -r /tmp/sf-pro/* /usr/share/fonts/sf-pro/
+rm -rf /tmp/sf-pro
+
+# Update the global font cache
+sudo fc-cache -f -v
+echo "SF Pro Font installed successfully."
 
 echo -e "\n======================================"
-echo " System Restoration Complete!         "
+echo " KDE Setup Complete!        "
 echo " Please log out or restart your PC.   "
 echo "======================================"
